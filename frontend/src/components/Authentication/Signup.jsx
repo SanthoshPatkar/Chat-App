@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 
 const Signup = () => {
-    const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false)
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();

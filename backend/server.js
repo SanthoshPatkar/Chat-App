@@ -2,6 +2,7 @@ const express=require('express')
 const dotenv=require('dotenv');
 const connectDB = require('./config/db');
 const userRoutes=require('./routes/userRoutes');
+const { notFound } = require('./middleware/errorMiddleware');
 
 dotenv.config()
 connectDB();
@@ -16,6 +17,9 @@ res.send("Api runnning");
 
 app.use('/api/user',userRoutes);
 app.use
+
+app.use(notFound);
+
 
 
 const port=process.env.PORT

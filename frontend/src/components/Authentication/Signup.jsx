@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   FormControl,
   FormLabel,
@@ -9,8 +10,10 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
+import { useHistory } from "react-router";
 
 const Signup = () => {
+  const history=useHistory()
   const [show, setShow] = useState(false)
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -54,7 +57,7 @@ const Signup = () => {
     toast({
       title: 'Please Select an Image',
       status: 'warning',
-      duration: 5000,
+      duration: 1000,
       isClosable: true,
       position: "bottom"
     });
@@ -63,8 +66,66 @@ const Signup = () => {
   }
   }
 
-  
-  const handleSubmit=() => {
+
+  const handleSubmit= async() => {
+    setLoading(true);
+    if (!name || !email || !password || !cpassword) {
+      toast({
+        title: "Please Fill all the Feilds",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+      return;
+    }
+    if (password !== cpassword) {
+      toast({
+        title: "Passwords Do Not Match",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const data=await axios.post("/api/user",{
+        name,email,password,pic
+      },config);
+
+      toast({
+        title: "Registration Successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setLoading(false);
+      history.push("/chat");
+
+    }
+    catch(error)
+    {
+      toast({
+        title: "Error Occured!",
+        description: error.response.data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+    }
 
   }
   return (
@@ -98,7 +159,7 @@ const Signup = () => {
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      <FormControl id="password" isRequired>
+      <FormControl id="cpassword" isRequired>
           <FormLabel>Confirm Password</FormLabel>
         <InputGroup size="md">
           <Input

@@ -60,7 +60,7 @@ const authUser = asyncHandler(async(req,res)=>{
     }
     else{
     res.status(400)
-      throw new Error("Failed to create user")
+      throw new Error("Failed to Login")
     }
 })
 

@@ -7,6 +7,7 @@ import {
   InputGroup,
   InputRightElement,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 
 const Signup = () => {
@@ -16,11 +17,53 @@ const Signup = () => {
   const [password, setPassword] = useState();
   const [cpassword, setCpassword] = useState();
   const [pic, setPic] = useState();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast()
  
   const handleClick = () => setShow(!show);
-  const postDetails=(e)=>{
+  const postDetails=(pics)=>{
+  setLoading(true);
+  if(pics===undefined)
+  {
+    toast({
+      title: 'Please Select an Image',
+      status: 'warning',
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    })
+    return;
+  }
+  if(pics.type==="image/jpeg" || pics.type==="image/png" )
+  {
+    const data=new FormData();
+    data.append("file",pics);
+    data.append("upload_preset","Chat_App");
+    data.append("cloud_name","dmz6ghxq8");
+    fetch("https://api.cloudinary.com/v1_1/dmz6ghxq8/image/upload",{method:'post',body:data,}).then((res)=> res.json()).then((data)=>{
+      setPic(data.url.toString());
+      console.log(data.url.toString());
+      setLoading(false);
+    }).catch((err)=>{
+      console.log(err);
+      setLoading(false);
+    })
 
   }
+  else{
+    toast({
+      title: 'Please Select an Image',
+      status: 'warning',
+      duration: 5000,
+      isClosable: true,
+      position: "bottom"
+    });
+    setLoading(false);
+    return;
+  }
+  }
+
+  
   const handleSubmit=() => {
 
   }
@@ -76,10 +119,10 @@ const Signup = () => {
         type={"file"}
           placeholder="upload image"
           accept="image/*"
-          onChange={(e) => postDetails(e.target.files(0))}
+          onChange={(e) => postDetails(e.target.files[0])}
         />
       </FormControl>
-      <Button colorScheme='cyan' variant='outline' onClick={handleSubmit}>
+      <Button colorScheme='cyan' variant='outline' onClick={handleSubmit} isLoading={loading}>
           SignUp
       </Button>
     </VStack>

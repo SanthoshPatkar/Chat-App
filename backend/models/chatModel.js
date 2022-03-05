@@ -3,12 +3,10 @@
 // users 
 // Message
 // admin 
-
 const mongoose =require('mongoose');
-const { stringify } = require('nodemon/lib/utils');
 
 const chatModel=mongoose.Schema ({
-    chatName:{type:stringify,trim:true},
+    chatName:{type:String,trim:true},
     isGroupChat:{type:Boolean,default:false},
     users :[
         {

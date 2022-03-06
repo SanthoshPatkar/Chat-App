@@ -66,7 +66,7 @@ const fetchChat = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const createGroupChat = asyncHandler(async (req, res) => {
+const createGroupChat = expressAsyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "Please Fill all the feilds" });
   }
@@ -147,6 +147,7 @@ const addToGroup =expressAsyncHandler(async (req,res)=>{
     res.json(added);
   }
 });
+
 const removeFromGroup =expressAsyncHandler(async (req,res)=>{
   const {chatId,userId}=req.body;
 

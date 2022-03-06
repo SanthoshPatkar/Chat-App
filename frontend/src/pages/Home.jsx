@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Box,
@@ -11,9 +11,23 @@ import {
 } from "@chakra-ui/react";
 import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
+import { useHistory } from "react-router-dom";
 
 
 function Home() {
+  const [user,setUser]=useState();
+  const history=useHistory();
+    useEffect(() => {
+      const userInfo=JSON.parse(localStorage.getItem('userInfo'));
+     
+      setUser(userInfo);
+
+      if(!userInfo)
+      {
+          history.push('/chats');
+      }
+      
+    }, [history])
   return (
     <Container maxW="xl" centerContent>
       <Box

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const sideDrawer = () => {
+function SideDrawer() {
   return (
     <div>sideDrawer</div>
   )
 }
 
-export default sideDrawer
+export default SideDrawer

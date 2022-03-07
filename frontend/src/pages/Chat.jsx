@@ -1,19 +1,22 @@
-import React from "react";
-import { ChatState } from "../context/ChatProvider";
-import sideDrawer from "../components/e_components/sideDrawer";
+import React from 'react';
+import {ChatState} from "../context/ChatProvider"
 import { Box } from "@chakra-ui/react";
+import SideDrawer from '../components/e_components/SideDrawer';
+import MyChats  from '../components/e_components/MyChats';
 
-function Chat() {
-  const { user } = ChatState();
+
+const Chat = () => {
+  // const  user  = ChatState();
+  // console.log(user);
   return (
     <div>
-      {user && <sideDrawer />}
-      <Box>
-        {/* {user && <myChats/>} */}
-        {/* {user && <chatBox/>} */}
-      </Box>
+   <SideDrawer/>
+    <Box>
+     <MyChats /> 
+      {/* {user && <chatBox/>} */}
+    </Box>
     </div>
-  );
+  )
 }
 
-export default Chat;
+export default Chat

@@ -6,14 +6,14 @@ import MyChats  from '../components/e_components/MyChats';
 
 
 const Chat = () => {
-  // const  user  = ChatState();
-  // console.log(user);
+  const  user  = ChatState();
+  console.log(user);
   return (
     <div>
    <SideDrawer/>
     <Box>
      <MyChats /> 
-      {/* {user && <chatBox/>} */}
+      {user && <chatBox/>}
     </Box>
     </div>
   )

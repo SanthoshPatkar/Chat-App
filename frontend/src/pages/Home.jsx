@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import {
   Container,
   Box,
@@ -15,14 +15,12 @@ import { useHistory } from "react-router-dom";
 
 
 function Home() {
-  const [user,setUser]=useState();
   const history=useHistory();
     useEffect(() => {
-      const userInfo=JSON.parse(localStorage.getItem('userInfo'));
-     
-      setUser(userInfo);
+      const user=JSON.parse(localStorage.getItem('userInfo'));
 
-      if(!userInfo)
+
+      if(user)
       {
           history.push('/chats');
       }

@@ -2,7 +2,7 @@ import React from 'react'
 
 const MyChats = () => {
   return (
-    <div>M</div>
+    <div>My Chat</div>
   )
 }
 

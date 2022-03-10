@@ -5,9 +5,10 @@
 }
 .App {
     min-height: 100vh;
-    display: flex;
+    width: 100%;
     background-image: url('https://biotechindia.com/wp-content/uploads/2019/05/background-3.jpg');
     background-size: cover;
     background-position: center;
     color: black;
+    box-sizing: border-box;
 }

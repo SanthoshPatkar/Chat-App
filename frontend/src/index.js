@@ -13,8 +13,8 @@ ReactDOM.render(
       <ChakraProvider>
         <App />
       </ChakraProvider>
-    </BrowserRouter>,
-     </ChatProvider>, 
+    </BrowserRouter>
+     </ChatProvider>,
   document.getElementById("root")
 );
 

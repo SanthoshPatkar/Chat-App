@@ -30,14 +30,14 @@ console.log(user);
          <MenuButton p='1'>
          <BellIcon fontSize='2xl'/>
          </MenuButton>
-         {/* <MenuList></MenuList> */}
+         <MenuList></MenuList>
        </Menu>
        <Menu>
        <MenuButton as={Button} rightIcon={<ChevronDownIcon/>}>
         <Avatar size={'sm'} cursor='pointer'/>
          </MenuButton>
          <MenuList>
-           <ProfileModel user={user.data.name}>
+           <ProfileModel user={user.name}>
            <MenuItem>My Profile</MenuItem>
            </ProfileModel>
            <MenuDivider/>

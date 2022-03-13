@@ -32,7 +32,7 @@ function ProfileModel({user,children}) {
               <Image
               borderRadius='full'
               boxSize='100px'
-              src={user.pic}
+              // src={user.pic}
               alt={user.name}
               />
           </ModalBody>

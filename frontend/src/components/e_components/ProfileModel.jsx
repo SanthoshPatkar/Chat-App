@@ -6,6 +6,8 @@ import {
 import { ViewIcon } from '@chakra-ui/icons';
 
 function ProfileModel({user,children}) {
+
+  console.log(user);
     const { isOpen, onOpen, onClose } = useDisclosure();
       return (
         <>
@@ -29,12 +31,12 @@ function ProfileModel({user,children}) {
             {user}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-              <Image
+              {/* <Image
               borderRadius='full'
               boxSize='100px'
-              // src={user.pic}
-              alt={user.name}
-              />
+              s
+              alt={user.data}
+              /> */}
           </ModalBody>
 
           <ModalFooter>

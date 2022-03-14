@@ -53,7 +53,7 @@ const authUser = asyncHandler(async(req,res)=>{
             _id:user.id,
             name:user.name,
             email:user.email,
-            pic:user.pic,
+            dp:user.dp,
             token:generateToken(user._id)
       })
 

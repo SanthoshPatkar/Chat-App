@@ -7,8 +7,10 @@ import ChatBox from '../components/e_components/ChatBox';
 
 
 const Chat = () => {
-  const  user  = ChatState();
-  // console.log(user);
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+  // setUser(user);
+  // const  user  = ChatState();
+  console.log(`hello ${user}`);
   return (
     <div>
      {user && <SideDrawer/>}

@@ -10,7 +10,8 @@ const [searchResult, setSearchResult] = useState([]);
 const [loading, setLoading] = useState(false)
 const [loadingChat, setLoadingChat] = useState();
 
-const { user } = ChatState();
+const user = JSON.parse(localStorage.getItem("userInfo"));
+// const { user } = ChatState();
 console.log(user);
 
   return (
@@ -37,7 +38,7 @@ console.log(user);
         <Avatar size={'sm'} cursor='pointer'/>
          </MenuButton>
          <MenuList>
-           <ProfileModel user={user.name}>
+           <ProfileModel user={user}>
            <MenuItem>My Profile</MenuItem>
            </ProfileModel>
            <MenuDivider/>

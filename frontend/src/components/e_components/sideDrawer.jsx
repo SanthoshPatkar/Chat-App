@@ -1,6 +1,7 @@
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import { Avatar, Box, Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, Tooltip } from '@chakra-ui/react';
+import { Avatar, Box, Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, Tooltip,useToast } from '@chakra-ui/react';
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import { ChatState } from '../../context/ChatProvider';
 import ProfileModel from './ProfileModel';
 
@@ -9,10 +10,23 @@ const [search, setSearch] = useState("");
 const [searchResult, setSearchResult] = useState([]);
 const [loading, setLoading] = useState(false)
 const [loadingChat, setLoadingChat] = useState();
+const history=useHistory();
+const toast = useToast()
+//const user = JSON.parse(localStorage.getItem("userInfo"));
+ const { user } = ChatState();
+//console.log(user);
 
-const user = JSON.parse(localStorage.getItem("userInfo"));
-// const { user } = ChatState();
-console.log(user);
+const logoutHandler=()=>{
+  localStorage.removeItem("userInfo");
+  history.push('/');
+  toast({
+    title: "Logout user",
+    status:"info",
+    duration: 2000,
+    isClosable: true,
+    position: "bottom",
+  });
+}
 
   return (
     <>
@@ -42,7 +56,7 @@ console.log(user);
            <MenuItem>My Profile</MenuItem>
            </ProfileModel>
            <MenuDivider/>
-           <MenuItem>Log Out</MenuItem>
+           <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
          </MenuList>
        </Menu>
       </div>

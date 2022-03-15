@@ -8,18 +8,10 @@ const [user, setUser] = useState();
 const history = useHistory();
 
 useEffect(() => {
-
        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
        setUser(userInfo);
-      // console.log(userInfo)
-       if (userInfo)
-       {
-        history.push("/chat");
-       }
-       else
-       {
-        history.push("/");
-       }        
+       
+
   }, [history]);
 
     return <ChatContext.Provider value={{user,setUser}}>
@@ -28,8 +20,7 @@ useEffect(() => {
  }
 
  export const ChatState =()=> {
-  // console.log(`hii ${useContext(ChatContext)}`);
- return (useContext(ChatContext)); 
+       return useContext(ChatContext); 
  }
 
  export default ChatProvider;

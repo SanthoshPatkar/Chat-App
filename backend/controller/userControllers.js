@@ -46,7 +46,7 @@ const authUser = asyncHandler(async(req,res)=>{
     const {email,password}=req.body;
 
     const user= await User.findOne({email});
-
+    // console.log("hello");
     if(user && (await user.matchPassword(password)))
     {
         res.json({
@@ -66,15 +66,17 @@ const authUser = asyncHandler(async(req,res)=>{
 
 
 const allUsers = asyncHandler(async(req,res)=>{
-    const keyword=req.query.search ? {
+    const keyword = req.query.search
+    ? {
         $or: [
-            {name:{$regex:req.query.search,$options:"i"}},
-            {email:{$regex:req.query.search,$options:"i"}},
-        ]
-    }:{};
-    // console.log(keyword);
-    const users=await User.find(keyword).find({_id: {$ne : req.user._id}});
-    res.send(users);
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(users);
 })
 
 module.exports={registerUser,authUser,allUsers};

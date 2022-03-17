@@ -1,14 +1,17 @@
 const expressAsyncHandler = require("express-async-handler");
 const Chat = require("../models/chatModel");
+const User = require("../models/userModel");
 
 const accessChat = expressAsyncHandler(async (req, res) => {
   const { userId } = req.body;
+  //  console.log(req.user._id);
+  //  console.log(userId)
 
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.sendStatus(400);
   }
-
+ 
   var isChat = await Chat.find({
     isGroupChat: false,
     $and: [
@@ -18,13 +21,14 @@ const accessChat = expressAsyncHandler(async (req, res) => {
   })
     .populate("users", "-password")
     .populate("latestMessage");
-
-  isChat = await User.populate(isChat, {
-    path: "latestMessage.sender",
-    select: "name pic email",
-  });
-
-  if (isChat.legth > 0) {
+    // console.log("hello")
+    isChat = await User.populate(isChat, {
+      path: "latestMessage.sender",
+      select: "name dp email",
+    });
+  // console.log("hello")
+  if (isChat.length > 0) {
+    // console.log("hello");
     res.send(isChat[0]);
   } else {
     var chatData = {

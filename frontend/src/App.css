@@ -12,3 +12,11 @@
     color: black;
     box-sizing: border-box;
 }
+::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(136, 136, 136, 0.281);
+  }
+  

@@ -14,6 +14,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Spinner,
   Text,
   Tooltip,
   useToast,
@@ -25,7 +26,6 @@ import ProfileModel from "./ProfileModel";
 import { useDisclosure } from "@chakra-ui/hooks";
 import axios from "axios";
 import ChatLoading from "./ChatLoading";
-import { useReducedMotionConfig } from "framer-motion";
 import UserList from "./UserList";
 
 function SideDrawer() {
@@ -34,10 +34,12 @@ function SideDrawer() {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
+
   const history = useHistory();
   const toast = useToast();
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const { user } = ChatState();
+  
+  // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const { user,setSelectedChat,chats, setChats } = ChatState();
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
@@ -84,14 +86,36 @@ function SideDrawer() {
         isClosable: true,
         position: "top-left",
       });
+      // setLoading(false);
     }
   };
-  const accessChat= (userId) => {
-  try {
-    
-  } catch (error) {
-    
-  }
+  const accessChat= async (userId) => {
+    try {
+      setLoadingChat(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.data.token}`,
+        },
+      };
+      // console.log(userId)
+      const { data } = await axios.post("/api/chat",{ userId }, config);
+      // console.log(data);
+
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Error fetching the chat",
+        description: error.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
   };
   return (
     <>
@@ -151,7 +175,7 @@ function SideDrawer() {
               />
               <Button onClick={handleSearch}>Go</Button>
             </Box>
-            {
+             {
               loading ? (
                 <ChatLoading />
               ) : (
@@ -163,7 +187,9 @@ function SideDrawer() {
                   />)
               )
             }
+            {loadingChat && <Spinner ml='auto' d='flex' />} 
           </DrawerBody>
+          
         </DrawerContent>
       </Drawer>
     </>

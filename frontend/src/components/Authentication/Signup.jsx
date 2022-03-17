@@ -19,7 +19,7 @@ const Signup = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [cpassword, setCpassword] = useState();
-  const [pic, setPic] = useState();
+  const [dp, setDp] = useState();
   const [loading, setLoading] = useState(false);
   const toast = useToast()
  
@@ -44,7 +44,7 @@ const Signup = () => {
     data.append("upload_preset","Chat_App");
     data.append("cloud_name","dmz6ghxq8");
     fetch("https://api.cloudinary.com/v1_1/dmz6ghxq8/image/upload",{method:'post',body:data,}).then((res)=> res.json()).then((data)=>{
-      setPic(data.url.toString());
+      setDp(data.url.toString());
       console.log(data.url.toString());
       setLoading(false);
     }).catch((err)=>{
@@ -98,7 +98,7 @@ const Signup = () => {
       };
 
       const data=await axios.post("/api/user",{
-        name,email,password,pic
+        name,email,password,dp
       },config);
 
       toast({

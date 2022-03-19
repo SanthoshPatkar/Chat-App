@@ -7,13 +7,12 @@ import { ViewIcon } from '@chakra-ui/icons';
 
 function ProfileModel({user,children}) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
- // console.log(userInfo)
 
     const { isOpen, onOpen, onClose } = useDisclosure();
       return (
         <>
         {
-            children?(<span onClick={onOpen}>{children}</span>):(
+            children ? (<span onClick={onOpen}>{children}</span>):(
                 <IconButton 
                 d={{base:"flex"}}
                 icon={<ViewIcon/>}

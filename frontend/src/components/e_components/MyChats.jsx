@@ -7,14 +7,14 @@ import ChatLoading from "./ChatLoading";
 import { getSender } from "../../context/ChatExpo";
 import GroupChatModal from "./GroupChatModal";
 
-const MyChats = () => {
+const MyChats = (fetchAgain) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, user, setSelectedChat, chats, setChats } = ChatState();
   const toast = useToast();
 
   const fetchChats = async () => {
-    console.log(user);
+    // console.log(user);
     try {
       const config = {
         headers: {
@@ -23,7 +23,7 @@ const MyChats = () => {
       };
 
       const { data } = await axios.get("/api/chat", config);
-      console.log(data);
+      // console.log(data);
       setChats(data);
     } catch (error) {
       toast({
@@ -40,7 +40,7 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, [ ]);
+  }, [fetchAgain]);
 
   return (
     <>

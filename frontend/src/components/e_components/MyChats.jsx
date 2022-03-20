@@ -7,7 +7,7 @@ import ChatLoading from "./ChatLoading";
 import { getSender } from "../../context/ChatExpo";
 import GroupChatModal from "./GroupChatModal";
 
-const MyChats = (fetchAgain) => {
+const MyChats = ({fetchAgain}) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, user, setSelectedChat, chats, setChats } = ChatState();

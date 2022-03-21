@@ -80,7 +80,6 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
       setGroupChatName("");
   };
 
-
   const handleRename = async () => {
     if (!groupChatName) return;
 
@@ -117,6 +116,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
     }
     setGroupChatName("");
   };
+
   const handleAddUser = async(user1) => {
     if (selectedChat.users.find((u) => u._id === user1._id)) {
         toast({
@@ -173,7 +173,6 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const handleSearch = async(query) => {
-
     setSearch(query);
     if (!query) {
       return;
@@ -200,8 +199,9 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
         position: "bottom-left",
       });
       setLoading(false);
-    }
+    }s
   };
+
   return (
     <>
       <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />

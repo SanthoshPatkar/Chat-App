@@ -199,7 +199,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
         position: "bottom-left",
       });
       setLoading(false);
-    }s
+    }
   };
 
   return (

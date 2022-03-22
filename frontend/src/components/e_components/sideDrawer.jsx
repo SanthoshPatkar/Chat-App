@@ -38,7 +38,7 @@ function SideDrawer() {
   const history = useHistory();
   const toast = useToast();
   
-  // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+ const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const { user,setSelectedChat,chats, setChats } = ChatState();
 
   const logoutHandler = () => {
@@ -52,7 +52,7 @@ function SideDrawer() {
       position: "bottom",
     });
   };
-
+ //console.log(searchResult)
   const handleSearch = async() => {
     if(!search)
     {
@@ -70,7 +70,7 @@ function SideDrawer() {
 
       const config = {
         headers: {
-          Authorization: `Bearer ${user.data.token}`,
+          Authorization: `Bearer ${userInfo.data.token}`,
         },
       };
       const { data } = await axios.get(`/api/user?search=${search}`, config);
@@ -95,12 +95,12 @@ function SideDrawer() {
       const config = {
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${user.data.token}`,
+          Authorization: `Bearer ${userInfo.data.token}`,
         },
       };
       // console.log(userId)
       const { data } = await axios.post("/api/chat",{ userId }, config);
-      // console.log(data);
+      console.log(data);
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);

@@ -7,12 +7,18 @@ import UpdateGroupChat from "./UpdateGroupChat";
 import ReceiverProfile from "./ReceiverProfile";
 import axios from "axios";
 import ScrollableChat from "./ScrollableChat";
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
+
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat, setSelectedChat, user } = ChatState();
   const toast=useToast();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -34,7 +40,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setMessages(data);
       setLoading(false);
 
-      // socket.emit("join chat", selectedChat._id);
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -82,6 +88,16 @@ const sendMessage=async(event)=>{
   }
 
 }
+
+useEffect(() => {
+  socket = io(ENDPOINT);
+  socket.emit("setup", user);
+  socket.on("connected", () => setSocketConnected(true));
+  // socket.on("typing", () => setIsTyping(true));
+  // socket.on("stop typing", () => setIsTyping(false));
+
+}, []);
+
 const typingHandler=async(e)=>{
   setNewMessage(e.target.value)
 

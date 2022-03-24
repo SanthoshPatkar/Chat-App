@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 
 const accessChat = expressAsyncHandler(async (req, res) => {
   const { userId } = req.body;
-  //  console.log(req.user._id);
+    //console.log(req.user._id);
   //  console.log(userId)
 
   if (!userId) {
@@ -21,14 +21,14 @@ const accessChat = expressAsyncHandler(async (req, res) => {
   })
     .populate("users", "-password")
     .populate("latestMessage");
-    // console.log("hello")
+    //console.log("hello")
     isChat = await User.populate(isChat, {
       path: "latestMessage.sender",
       select: "name dp email",
     });
-  // console.log("hello")
+   //console.log("hello")
   if (isChat.length > 0) {
-    // console.log("hello");
+     //console.log("hello");
     res.send(isChat[0]);
   } else {
     var chatData = {
@@ -45,6 +45,7 @@ const accessChat = expressAsyncHandler(async (req, res) => {
       res.status(200).json(FullChat);
     } catch (error) {
       res.status(400);
+       console.log(error);
       throw new Error(error.message);
     }
   }

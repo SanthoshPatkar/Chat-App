@@ -25,7 +25,7 @@ import axios from "axios";
 const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [groupChatName, setGroupChatName] = useState();
+  const [groupChatName, setGroupChatName] = useState(" ");
   const [search, setSearch] = useState("");
   const [renameloading, setRenameLoading] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
@@ -33,9 +33,9 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
   const toast = useToast();
 
   const { selectedChat, setSelectedChat, user } = ChatState();
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+ // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const handleRemove = async(user1) => {
-    if (selectedChat.groupAdmin._id !== userInfo._id && user1._id !== userInfo._id) {
+    if (selectedChat.groupAdmin._id !== user.data._id){
         toast({
           title: "Only admins can remove someone!",
           status: "error",
@@ -45,12 +45,21 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
         });
         return;
       }
-  
+      if (user1._id === user.data._id) {
+        toast({
+          title: "Admin Cant left",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom",
+        });
+        return;
+      }
       try {
         setLoading(true);
         const config = {
           headers: {
-            Authorization: `Bearer ${userInfo.data.token}`,
+            Authorization: `Bearer ${user.data.token}`,
           },
         };
         const { data } = await axios.put(
@@ -62,7 +71,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
           config
         );
   
-        user1._id === userInfo._id ? setSelectedChat() : setSelectedChat(data);
+        user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
         setFetchAgain(!fetchAgain);
         // fetchMessages();
         setLoading(false);
@@ -87,7 +96,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
       setRenameLoading(true);
       const config = {
         headers: {
-          Authorization: `Bearer ${userInfo.data.token}`,
+          Authorization: `Bearer ${user.data.token}`,
         },
       };
       const { data } = await axios.put(
@@ -118,6 +127,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const handleAddUser = async(user1) => {
+    console.log(user1)
     if (selectedChat.users.find((u) => u._id === user1._id)) {
         toast({
           title: "User Already in group!",
@@ -128,7 +138,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
         });
         return;
       }
-      if (selectedChat.groupAdmin._id !== userInfo._id) {
+      if (selectedChat.groupAdmin._id !== user.data._id) {
         toast({
           title: "Only admins can add someone!",
           status: "error",
@@ -143,7 +153,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
         setLoading(true);
         const config = {
           headers: {
-            Authorization: `Bearer ${userInfo.data.token}`,
+            Authorization: `Bearer ${user.data.token}`,
           },
         };
         const { data } = await axios.put(
@@ -182,7 +192,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
       const config = {
         headers: {
-          Authorization: `Bearer ${userInfo.data.token}`,
+          Authorization: `Bearer ${user.data.token}`,
         },
       };
       const { data } = await axios.get(`/api/user?search=${search}`, config);
@@ -232,7 +242,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
             </Box>
             <FormControl d="flex">
               <Input
-                placeholder="Chat Name"
+                placeholder="chat Name"
                 mb={3}
                 value={groupChatName}
                 onChange={(e) => setGroupChatName(e.target.value)}

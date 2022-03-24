@@ -38,9 +38,9 @@ function SideDrawer() {
   const history = useHistory();
   const toast = useToast();
   
- const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const { user,setSelectedChat,chats, setChats } = ChatState();
-
+ //const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const { user,selectedChat,setSelectedChat,chats,setChats} = ChatState();
+  
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
     history.push("/");
@@ -70,7 +70,7 @@ function SideDrawer() {
 
       const config = {
         headers: {
-          Authorization: `Bearer ${userInfo.data.token}`,
+          Authorization: `Bearer ${user.data.token}`,
         },
       };
       const { data } = await axios.get(`/api/user?search=${search}`, config);
@@ -90,20 +90,23 @@ function SideDrawer() {
     }
   };
   const accessChat= async (userId) => {
+    //console.log(userId)
     try {
       setLoadingChat(true);
       const config = {
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${userInfo.data.token}`,
+          Authorization: `Bearer ${user.data.token}`,
         },
       };
       // console.log(userId)
       const { data } = await axios.post("/api/chat",{ userId }, config);
-      console.log(data);
-
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      // console.log(data);
+      // console.log(chats)
+      if (!chats.find((c) => c._id === data._id))
+      setChats([data, ...chats]);
       setSelectedChat(data);
+      console.log("helllo");
       setLoadingChat(false);
       onClose();
     } catch (error) {

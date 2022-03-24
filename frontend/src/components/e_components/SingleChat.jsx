@@ -2,35 +2,34 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Box, IconButton, Text } from "@chakra-ui/react";
 import React from "react";
 import { ChatState } from "../../context/ChatProvider";
-import ProfileModel from'./ProfileModel'
 import { getSender, getSenderFull } from "../../context/ChatExpo"
 import UpdateGroupChat from "./UpdateGroupChat";
-
+import ReceiverProfile from "./ReceiverProfile";
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat, setSelectedChat, user } = ChatState();
   return <>
   {selectedChat ? (
       <>
-       <Text
+       <Text 
             fontSize={{ base: "28px", md: "30px" }}
             pb={3}
             px={2}
             w="100%"
             fontFamily="Work sans"
             d="flex"
-            justifyContent={{ base: "space-between" }}s
+            justifyContent={{ base: "space-between" }}
             alignItems="center"
           >
             <IconButton
               d={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon/>}
-              onClick={() => setSelectedChat(" ")}
+              onClick={() => setSelectedChat("")}
             />
             {
               (!selectedChat.isGroupChat ? (
                 <>
                   {getSender(user, selectedChat.users)}
-                  <ProfileModel
+                  <ReceiverProfile
                     user={getSenderFull(user, selectedChat.users)}
                   />
                 </>
@@ -55,7 +54,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
            borderRadius="lg"
            overflowY="hidden"
           >
-           hsbhfdaksdjf
+          hagag
           </Box>
       </>
       ) : (
@@ -65,7 +64,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           </Text>
         </Box>
       )}
-  </>;
+  </>
 };
 
 export default SingleChat;

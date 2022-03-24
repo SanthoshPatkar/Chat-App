@@ -1,21 +1,23 @@
 import React from 'react';
 import {
-    Button, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure
+    Button,
+    IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure
   } from '@chakra-ui/react'
+import { ViewIcon } from '@chakra-ui/icons';
 
-function ProfileModel({user,children})
-
+function ReceiverProfile({user})
  {
-   //console.log(user)
+  //  console.log(user)
   // console.log(children);
-  //const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     const { isOpen, onOpen, onClose } = useDisclosure();
       return (
         <>
         {
-            <span onClick={onOpen}>{children}</span>
-               
+                <IconButton 
+                d={{base:"flex"}}
+                icon={<ViewIcon/>}
+                onClick={onOpen} />
         }
         <Modal size='lg' isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -26,7 +28,7 @@ function ProfileModel({user,children})
           d='flex'
           justifyContent='center'
           >
-            {user?.data.name}</ModalHeader>
+            {user.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody 
           d="flex"
@@ -37,11 +39,11 @@ function ProfileModel({user,children})
               <Image
               borderRadius='full'
               boxSize='150px'
-              src={user?.data.dp}
-              alt={user?.data.name}
+              src={user.dp}
+              alt={user.name}
                />
               <Text margin='5px 0'>
-                Email: {user?.data.email}
+                Email: {user.email}
               </Text>
           </ModalBody>
 
@@ -56,4 +58,4 @@ function ProfileModel({user,children})
   )
 }
 
-export default ProfileModel
+export default ReceiverProfile

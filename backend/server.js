@@ -3,6 +3,7 @@ const dotenv=require('dotenv');
 const connectDB = require('./config/db');
 const userRoutes=require('./routes/userRoutes');
 const chatRoutes=require('./routes/chatRoutes');
+const messageRoute=require('./routes/messageRoute');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 dotenv.config()
@@ -17,7 +18,8 @@ res.send("Api runnning");
 })
 
 app.use('/api/user',userRoutes);
-app.use('/api/chat',chatRoutes)
+app.use('/api/chat',chatRoutes);
+app.use('/api/message',messageRoute);
 
 app.use(notFound);
 app.use(errorHandler)

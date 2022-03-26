@@ -19,6 +19,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
+// console.log(user)
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+    // socket.on("typing", () => setIsTyping(true));
+    // socket.on("stop typing", () => setIsTyping(false));
+  
+  }, []);
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -72,8 +81,8 @@ const sendMessage=async(event)=>{
         },
         config
       );
-      console.log(data);
-      // socket.emit("new message", data);
+      // console.log(data);
+      socket.emit("new message", data);
       setMessages([...messages, data]);
     } catch (error) {
       toast({
@@ -89,24 +98,30 @@ const sendMessage=async(event)=>{
 
 }
 
-useEffect(() => {
-  socket = io(ENDPOINT);
-  socket.emit("setup", user);
-  socket.on("connected", () => setSocketConnected(true));
-  // socket.on("typing", () => setIsTyping(true));
-  // socket.on("stop typing", () => setIsTyping(false));
-
-}, []);
-
 const typingHandler=async(e)=>{
   setNewMessage(e.target.value)
 
 }
 useEffect(() => {
   fetchMessages();
-
-  // selectedChatCompare = selectedChat;s
+  selectedChatCompare = selectedChat;
 }, [selectedChat]);
+
+useEffect(() => {
+  socket.on("message recieved", (newMessageRecieved) => {
+    if (
+      !selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id
+    ) {
+      // if (!notification.includes(newMessageRecieved)) {
+      //   setNotification([newMessageRecieved, ...notification]);
+      //   setFetchAgain(!fetchAgain);
+      // }
+    } else {
+      setMessages([...messages, newMessageRecieved]);
+    }
+  });
+})
+
   return <>
   {selectedChat ? (
       <>
@@ -167,7 +182,6 @@ useEffect(() => {
                <div 
                d='flex'
                flex-direction='column'
-               overflowY='scroll'
                scrollbar-width='none'>
                  <ScrollableChat messages={messages} />
                </div>

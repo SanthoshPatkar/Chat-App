@@ -6,8 +6,6 @@ export const getSender = (loggedUser, users) => {
     return users[0]._id === loggedUser.data._id ? users[1] : users[0];
   };
   export const isSameSenderMargin = (messages, m, i, userId) => {
-    // console.log(i === messages.length - 1);
-  
     if (
       i < messages.length - 1 &&
       messages[i + 1].sender._id === m.sender._id &&
